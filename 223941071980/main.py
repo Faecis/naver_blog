@@ -39,9 +39,9 @@ class UnitCircle(Scene):
 
         # Line segment configuration.
 
-        line_fix = Line(point_origin.get_center(), actual_radius*RIGHT, color=WHITE)
+        line_fix = Line(ORIGIN, actual_radius*RIGHT, color=WHITE)
         line_hyp = always_redraw(
-            lambda: Line(point_origin.get_center(), [actual_radius*np.cos(theta.get_value()), actual_radius*np.sin(theta.get_value()), 0], color=WHITE)
+            lambda: Line(ORIGIN, [actual_radius*np.cos(theta.get_value()), actual_radius*np.sin(theta.get_value()), 0], color=WHITE)
         )
         line_sin = always_redraw(
             lambda: Line([actual_radius*np.cos(theta.get_value()), 0, 0], [actual_radius*np.cos(theta.get_value()), actual_radius*np.sin(theta.get_value()), 0], color=ORANGE)
@@ -50,10 +50,10 @@ class UnitCircle(Scene):
             lambda: Line([0, actual_radius*np.sin(theta.get_value()), 0], [actual_radius*np.cos(theta.get_value()), actual_radius*np.sin(theta.get_value()), 0], color=BLUE)
         )
         line_csc = always_redraw(
-            lambda: Line(point_origin.get_center(), [0, actual_radius*(1/np.sin(theta.get_value())), 0], color=PINK)
+            lambda: Line(ORIGIN, [0, actual_radius*(1/np.sin(theta.get_value())), 0], color=PINK)
         )
         line_sec = always_redraw(
-            lambda: Line(point_origin.get_center(), [actual_radius*(1/np.cos(theta.get_value())), 0, 0], color=GREEN)
+            lambda: Line(ORIGIN, [actual_radius*(1/np.cos(theta.get_value())), 0, 0], color=GREEN)
         )
         line_tan = always_redraw(
             lambda: Line([actual_radius*(1/np.cos(theta.get_value())), 0, 0], [actual_radius*np.cos(theta.get_value()), actual_radius*np.sin(theta.get_value()), 0], color=YELLOW)
