@@ -130,11 +130,14 @@ class UnitCircle(Scene):
         """
 
         theta %= 2 * PI
+        angle = 0.0
 
         if PI/2 <= theta < PI or 3*PI/2 <= theta < 2*PI:
-            return line.copy().rotate(3*PI/2).get_unit_vector()
+            angle = 3 * PI / 2
+        else:
+            angle = PI / 2
         
-        return line.copy().rotate(PI/2).get_unit_vector()
+        return line.copy().rotate(angle).get_unit_vector()
     
 
     def get_brace_other_direction(self, line: Line, theta: float) -> np.ndarray:
@@ -150,8 +153,11 @@ class UnitCircle(Scene):
         """
 
         theta %= 2 * PI
+        angle = 0.0
 
         if 0.0 <= theta < PI/2 or PI <= theta < 3*PI/2:
-            return line.copy().rotate(3*PI/2).get_unit_vector()
+            angle = 3 * PI / 2
+        else:
+            angle = PI / 2
 
-        return line.copy().rotate(PI/2).get_unit_vector()
+        return line.copy().rotate(angle).get_unit_vector()
