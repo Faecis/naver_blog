@@ -1,0 +1,71 @@
+\documentclass{article}
+
+\usepackage{amsmath, amssymb}
+\usepackage{mathtools}
+
+\title{Linear Temporal Logic Notes}
+\author{Faex}
+
+\begin{document}
+    \maketitle
+
+    \textbf{Syntax}
+
+    \begin{itemize}
+        \item Linear Temporal Logic (LTL) Formula:
+        $$
+            \varphi \Coloneqq p \mid \neg\varphi \mid \varphi\lor\varphi \mid \varphi\land\varphi \mid \bigcirc\varphi \mid \lozenge\varphi \mid \square\varphi \mid \varphi{U}\varphi
+        $$
+    \end{itemize}
+    
+    \textbf{Informal Definition}
+
+    \begin{itemize}
+        \item An atomic preposition $p$ holds if $p$ is true at the current point of time.
+        \item The propositional connectives $\neg$, $\lor$, $\land$, and $\rightarrow$ have their usual meanings.
+        \item Meaning of temporal connectives:
+        \begin{itemize}
+            \item $\bigcirc \varphi$: $\varphi$ holds next (at the next point in time).
+            \item $\lozenge \varphi$: $\varphi$ holds eventually (now or at some point in the future).
+            \item $\square \varphi$: $\varphi$ holds always (now and at all future points in time).
+            \item $\varphi{U}\psi$: $\varphi$ holds until $\psi$ holds ($\psi$ holds now or at some point of future, and $\varphi$ holds continuously until then).
+        \end{itemize}
+    \end{itemize}
+
+    \textbf{More Formal Definition}
+
+    \begin{itemize}
+        \item Let $S$ be a set of states and $L: S \rightarrow \mathcal{P}(\texttt{Atoms})$ be a labeling function associating to each state $s$ a set of all atoms that are true in that state.
+        \item Let $\pi$ be an infinite sequence of states $s_0, s_1, s_2, \cdots$.
+        We think of $L(s_i)$ as the set of all atoms true at point $i$ in time on the path $\pi$.
+        \item For each $i$, we write $\pi^i$ for the $i$-th suffix of $\pi$, namely $s_i, s_{i+1}, s_{i+2}, \cdots$ (e.g., $\pi^1 = s_1, s_2, s_3, \cdots$ and $\pi^2 = s_2, s_3, s_4, \cdots$).
+        \item For an LTL formula $\varphi_1$ we define $\pi \models_L \varphi$, read "$\pi$ satisfies $\varphi$ with respect to labeling $L$" or "$\varphi$ holds for $\pi$ with respect to labeling $L$" by structural recurson on $\varphi$:
+        \begin{itemize}
+            \item $\pi \models_L p$ iff. $p \in L(s_0)$
+            \item $\pi \models_L \varphi \land \psi$ iff. $\pi \models_L \varphi$ and $\pi \models_L \psi$
+            \item $\pi \models_L \varphi \lor \psi$ iff. $\pi \models_L \varphi$ or $\pi \models_L \psi$
+            \item $\pi \models_L \varphi \rightarrow \psi$ iff. $\pi \models_L \varphi$ implies $\pi \models_L \psi$
+            \item $\pi \models_L \bigcirc\varphi$ iff. $\pi^1 \models_L \varphi$
+            \item $\pi \models_L \lozenge\varphi$ iff. $\exists{i} \geq 0$ such that $\pi^i \models_L \varphi$
+            \item $\pi \models_L \square\varphi$ iff. $\forall{i} \geq 0$ such that $\pi^i \models_L \varphi$
+            \item $\pi \models_L \varphi{U}\psi$ iff. $\exists{i} \geq 0$ such that $\pi^i \models_L \psi$ and $\forall{j} \in \{0, 1, \cdots, i-1\}$, we have $\pi^j \models_L \psi$.
+        \end{itemize}
+        \item $\models$ is called satisfaction relation.
+        It is a relation between formulas and infinite sequences of states in the presence of a state labeling with atom sets.
+        When the labeling $L$ is fixed, we can write $\pi \models \varphi$.
+    \end{itemize}
+
+    \textbf{Labeled Transition System}
+
+    \begin{itemize}
+        \item A labeled transition system (LTS) is a triple $\mathcal{M} = (S, \rightarrow, L)$ where:
+        \begin{itemize}
+            \item $S$ is a finite set of states, 
+            \item $\rightarrow \,\subseteq S \times S$ is a transition relation, and 
+            \item $L: S \rightarrow \mathcal{P}(\texttt{Atoms})$ a labeling function,
+        \end{itemize}
+        such that every state has an outward transition (i.e., $\forall{s_1} \in S$, $\exists{s_2} \in S$ such that $s_1 \rightarrow s_2$).
+        \item A path $\pi$ in an LTS $\mathcal{M} = (S, \rightarrow, L)$ is an infinite sequence of states $s_0, s_1, s_2, \cdots$ such that $\forall{i} \geq 0, s_1 \rightarrow s_{i+1}$.
+        Paths are written as $\pi = s_0 \rightarrow s_1 \rightarrow s_2 \rightarrow \cdots$.
+    \end{itemize}
+\end{document}
