@@ -4,17 +4,20 @@
 \usepackage{dirtytalk}
 \usepackage{geometry}
 \usepackage{mathtools}
-\usepackage{wasysym}
+\usepackage{scalerel}
 
 \geometry{
     a4paper,
-    top = 2cm,
+    top = 1cm,
     bottom = 2cm,
-    left = 2cm,
-    right = 2cm
+    left = 1cm,
+    right = 1cm
 }
 
+\newcommand{\imp}{\Rightarrow}
 \newcommand{\until}{\,\mathrm{U}\,}
+\newcommand{\iscircle}{\mathord{\scalerel*{\bigcirc}{\square}}}
+
 \renewcommand{\qedsymbol}{$\blacksquare$}
 
 
@@ -28,7 +31,7 @@
     \begin{itemize}
         \item Linear Temporal Logic (LTL) Formula:
         $$
-            \varphi \Coloneqq p \mid \neg\varphi \mid \varphi\lor\varphi \mid \varphi\land\varphi \mid \varphi\Rightarrow\varphi \mid \ocircle\varphi \mid \lozenge\varphi \mid \square\varphi \mid \varphi \until \varphi
+            \varphi \Coloneqq p \mid \neg\varphi \mid \varphi\lor\varphi \mid \varphi\land\varphi \mid \varphi\imp\varphi \mid \iscircle\varphi \mid \lozenge\varphi \mid \square\varphi \mid \varphi \until \varphi
         $$
     \end{itemize}
     
@@ -36,10 +39,10 @@
 
     \begin{itemize}
         \item An atomic preposition $p$ holds if $p$ is true at the current point of time.
-        \item The propositional connectives $\neg$, $\lor$, $\land$, and $\Rightarrow$ have their usual meanings.
+        \item The propositional connectives $\neg$, $\lor$, $\land$, and $\imp$ have their usual meanings.
         \item Meaning of Temporal Connectives:
         \begin{itemize}
-            \item $\ocircle \varphi$: $\varphi$ holds next (at the next point in time).
+            \item $\iscircle \varphi$: $\varphi$ holds next (at the next point in time).
             \item $\lozenge \varphi$: $\varphi$ holds eventually (now or at some point in the future).
             \item $\square \varphi$: $\varphi$ holds always (now and at all future points in time).
             \item $\varphi \until \psi$: $\varphi$ holds until $\psi$ holds ($\psi$ holds now or at some point of future, and $\varphi$ holds continuously until then).
@@ -53,15 +56,15 @@
         \item Let $\pi$ be an infinite sequence of states $s_0, s_1, s_2, \cdots$.
         We think of $L(s_i)$ as the set of all atoms true at point $i$ in time on the path $\pi$.
         \item For each $i$, we write $\pi^i$ for the $i$-th suffix of $\pi$, namely $s_i, s_{i+1}, s_{i+2}, \cdots$ (e.g., $\pi^1 = s_1, s_2, s_3, \cdots$ and $\pi^2 = s_2, s_3, s_4, \cdots$).
-        \item For an LTL formula $\varphi_1$ we define $\pi \models_L \varphi$, read \say{$\pi$ satisfies $\varphi$ with respect to labeling $L$} or \say{$\varphi$ holds for $\pi$ with respect to labeling $L$} by structural recurson on $\varphi$:
+        \item For an LTL formula $\varphi_1$ we define $\pi \models_L \varphi$, read \say{$\pi$ satisfies $\varphi$ with respect to labeling $L$} or \say{$\varphi$ holds for $\pi$ with respect to labeling $L$}, by structural recurson on $\varphi$:
         \begin{itemize}
-            \item $\pi \models_L p$ iff. $p \in L(s_0)$
-            \item $\pi \models_L \varphi \land \psi$ iff. $\pi \models_L \varphi$ and $\pi \models_L \psi$
-            \item $\pi \models_L \varphi \lor \psi$ iff. $\pi \models_L \varphi$ or $\pi \models_L \psi$
-            \item $\pi \models_L \varphi \rightarrow \psi$ iff. $\pi \models_L \varphi$ implies $\pi \models_L \psi$
-            \item $\pi \models_L \ocircle\varphi$ iff. $\pi^1 \models_L \varphi$
-            \item $\pi \models_L \lozenge\varphi$ iff. $\exists{i} \geq 0$ such that $\pi^i \models_L \varphi$
-            \item $\pi \models_L \square\varphi$ iff. $\forall{i} \geq 0$ such that $\pi^i \models_L \varphi$
+            \item $\pi \models_L p$ iff. $p \in L(s_0)$,
+            \item $\pi \models_L \varphi \land \psi$ iff. $\pi \models_L \varphi$ and $\pi \models_L \psi$,
+            \item $\pi \models_L \varphi \lor \psi$ iff. $\pi \models_L \varphi$ or $\pi \models_L \psi$,
+            \item $\pi \models_L \varphi \imp \psi$ iff. $\pi \models_L \varphi$ implies $\pi \models_L \psi$,
+            \item $\pi \models_L \iscircle\varphi$ iff. $\pi^1 \models_L \varphi$,
+            \item $\pi \models_L \lozenge\varphi$ iff. $\exists{i} \geq 0$ such that $\pi^i \models_L \varphi$,
+            \item $\pi \models_L \square\varphi$ iff. $\forall{i} \geq 0$ such that $\pi^i \models_L \varphi$, \&
             \item $\pi \models_L \varphi \until \psi$ iff. $\exists{i} \geq 0$ such that $\pi^i \models_L \psi$ and $\forall{j} \in \{0, 1, \cdots, i-1\}$, we have $\pi^j \models_L \psi$.
         \end{itemize}
         \item $\models$ is called satisfaction relation.
@@ -69,21 +72,19 @@
         When the labeling $L$ is fixed, we can write $\pi \models \varphi$.
     \end{itemize}
 
-\pagebreak
-
     \textbf{Labeled Transition System}
 
     \begin{itemize}
         \item A labeled transition system (LTS) is a triple $\mathcal{M} = (S, \rightarrow, L)$ where:
         \begin{itemize}
             \item $S$ is a finite set of states, 
-            \item $\rightarrow$ $\subseteq S \times S$ is a transition relation, and 
+            \item ${\rightarrow} \subseteq S \times S$ is a transition relation, \& 
             \item $L: S \rightarrow \mathcal{P}(\texttt{Atoms})$ a labeling function,
         \end{itemize}
         such that every state has an outward transition (i.e., $\forall{s_1} \in S$, $\exists{s_2} \in S$ such that $s_1 \rightarrow s_2$).
         \item A path $\pi$ in an LTS $\mathcal{M} = (S, \rightarrow, L)$ is an infinite sequence of states $s_0, s_1, s_2, \cdots$ such that $\forall{i} \geq 0, s_1 \rightarrow s_{i+1}$.
         Paths are written as $\pi = s_0 \rightarrow s_1 \rightarrow s_2 \rightarrow \cdots$.
-        \item For a state $s \in S$,  we define $\mathcal{M}, s \models \varphi$, read \say{$\mathcal{M}$ satisfies $\varphi$ in state $s$} or \say{$\varphi$ holds for $\mathcal{M}$ in state $s$}, to mean that $\pi \models_L \varphi$ for every path $\pi$ of $\mathcal{M}$ starting at state $s$.
+        \item For a state $s \in S$, we define $\mathcal{M}, s \models \varphi$, read \say{$\mathcal{M}$ satisfies $\varphi$ in state $s$} or \say{$\varphi$ holds for $\mathcal{M}$ in state $s$}, to mean that $\pi \models_L \varphi$ for every path $\pi$ of $\mathcal{M}$ starting at state $s$.
     \end{itemize}
 
     \textbf{Formula Equivalence}
@@ -95,109 +96,109 @@
         given any LTS $\mathcal{M} = (S, \rightarrow, L)$ and any $s \in S$, we have that $\mathcal{M}, s \models \varphi$ iff. $\mathcal{M}, s \models \psi$.
         \item Propositional Tautologies:
         \begin{itemize}
-            \item $\neg(\varphi \land \psi) \equiv \neg\varphi \lor \neg\psi$
+            \item $\neg(\varphi \land \psi) \equiv \neg\varphi \lor \neg\psi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\neg(\varphi \lor \psi) \equiv \neg\varphi \land \neg\psi$
+            \item $\neg(\varphi \lor \psi) \equiv \neg\varphi \land \neg\psi$.
             \begin{proof}
                 
             \end{proof}
         \end{itemize}
         \item Duality Laws:
         \begin{itemize}
-            \item $\neg\ocircle\varphi \equiv \ocircle\neg\varphi$
+            \item $\neg\iscircle\varphi \equiv \iscircle\neg\varphi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\neg\square\varphi \equiv \lozenge\neg\varphi$
+            \item $\neg\square\varphi \equiv \lozenge\neg\varphi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\neg\lozenge\varphi \equiv \square\neg\varphi$
+            \item $\neg\lozenge\varphi \equiv \square\neg\varphi$.
             \begin{proof}
                 
             \end{proof}
         \end{itemize}
         \item Distributive Laws:
         \begin{itemize}
-            \item $\square(\varphi \land \psi) \equiv \square\varphi \land \square\psi$
+            \item $\square(\varphi \land \psi) \equiv \square\varphi \land \square\psi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\lozenge(\varphi \lor \psi) \equiv \lozenge\varphi \lor \lozenge\psi$
+            \item $\lozenge(\varphi \lor \psi) \equiv \lozenge\varphi \lor \lozenge\psi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\ocircle(\varphi \until \psi) = \ocircle\varphi \until \ocircle\psi$
+            \item $\iscircle(\varphi \until \psi) \equiv \iscircle\varphi \until \iscircle\psi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\square(\varphi \lor \psi) \not\equiv \square\varphi \lor \square\psi$
+            \item $\square(\varphi \lor \psi) \not\equiv \square\varphi \lor \square\psi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\lozenge(\varphi \land \psi) \not\equiv \lozenge\varphi \land \lozenge\psi$
+            \item $\lozenge(\varphi \land \psi) \not\equiv \lozenge\varphi \land \lozenge\psi$.
             \begin{proof}
                 
             \end{proof}
         \end{itemize}
         \item Inter-Definability Laws:
         \begin{itemize}
-            \item $\lozenge\varphi \equiv \neg\square\neg\varphi$
+            \item $\lozenge\varphi \equiv \neg\square\neg\varphi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\square\varphi \equiv \neg\lozenge\neg\varphi$
+            \item $\square\varphi \equiv \neg\lozenge\neg\varphi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\lozenge\varphi \equiv \top \until \varphi$, where $\top$ (read \say{true}) is an abbreviation for $p \Rightarrow p$ ($\neg{p} \lor p$) for some atom $p$.
+            \item $\lozenge\varphi \equiv \top \until \varphi$, where $\top$ (read \say{true}) is an abbreviation for $p \imp p$ ($\neg{p} \lor p$) for some atom $p$.
             \begin{proof}
                 
             \end{proof}
         \end{itemize}
         \item Idempotency Laws:
         \begin{itemize}
-            \item $\lozenge\lozenge\varphi \equiv \lozenge\varphi$
+            \item $\lozenge\lozenge\varphi \equiv \lozenge\varphi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\square\square\varphi \equiv \square\varphi$
+            \item $\square\square\varphi \equiv \square\varphi$.
             \begin{proof}
                 
             \end{proof}
-            \item $(\varphi \until \psi) \until \psi \equiv \varphi \until \psi$
+            \item $(\varphi \until \psi) \until \psi \equiv \varphi \until \psi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\varphi \until (\varphi \until \psi) \equiv \varphi \until \psi$
+            \item $\varphi \until (\varphi \until \psi) \equiv \varphi \until \psi$.
             \begin{proof}
                 
             \end{proof}
         \end{itemize}
         \item Absorption Laws:
         \begin{itemize}
-            \item $\square\lozenge\square\varphi \equiv \lozenge\square\varphi$
+            \item $\square\lozenge\square\varphi \equiv \lozenge\square\varphi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\lozenge\square\lozenge\varphi \equiv \square\lozenge\varphi$
+            \item $\lozenge\square\lozenge\varphi \equiv \square\lozenge\varphi$.
             \begin{proof}
                 
             \end{proof}
         \end{itemize}
         \item Expansion Laws:
         \begin{itemize}
-            \item $\lozenge\varphi \equiv \varphi \lor \ocircle\lozenge\varphi$
+            \item $\lozenge\varphi \equiv \varphi \lor \iscircle\lozenge\varphi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\square\varphi \equiv \varphi \land \ocircle\square\varphi$
+            \item $\square\varphi \equiv \varphi \land \iscircle\square\varphi$.
             \begin{proof}
                 
             \end{proof}
-            \item $\varphi \until \psi \equiv \psi \lor (\varphi \land \ocircle(\varphi \until \psi))$
+            \item $\varphi \until \psi \equiv \psi \lor (\varphi \land \iscircle(\varphi \until \psi))$.
             \begin{proof}
                 
             \end{proof}
